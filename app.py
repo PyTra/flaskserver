@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, make_response
-from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import credentials, firestore, initialize_app, db
 import os
 from googletrans import Translator
 import requests
@@ -22,18 +22,8 @@ db = firestore.client()
 #initialize Google Translate
 translator = Translator()
 
-
 #creates collection
-images_ref = db.collection('images')
-
-@app.route('/post', methods=['POST'])
-def post():
-    try:
-        image_json = request.json
-        images_ref.document(u'images').set(image_json)
-        return jsonify({"success": True}, 200)
-    except Exception as error:
-        return "Error: {}".format(error)
+users_ref = db.collection('users')
 
 @app.route('/translate', methods = ['POST'])
 def translate():
@@ -48,10 +38,19 @@ def translate():
         url = ("https://wordsapiv1.p.rapidapi.com/words/{}/definition".format(word))
         response = requests.request("GET", url, headers=headers)
         d["definition"] = response.json()["definition"]
+        users_ref.document("translated_words").update({word : d})
         return make_response(jsonify(d), 200)
     except Exception as error:
         return "Error: {}".format(error)
 
+@app.route('/getall', methods = ['GET'])
+def getall():
+    try:
+        doc_ref = db.collection('users').document("translated_words")
+        doc = doc_ref.get().to_dict()
+        return make_response(jsonify(doc), 200)
+    except Exception as error:
+        return "Error: {}".format(error)
 
 
 if __name__ == "__main__":
