@@ -31,7 +31,7 @@ def translate():
         d = {}
         word_json = request.json
         word = word_json["word"]
-        word = ''.join(word.split())
+        word_1 = ''.join(word.split())
         language = word_json["language"]
         translated_word = translator.translate(word, dest = language)
         d["translated_word"] = translated_word.text
@@ -39,7 +39,7 @@ def translate():
         url = ("https://wordsapiv1.p.rapidapi.com/words/{}/definition".format(word))
         response = requests.request("GET", url, headers=headers)
         d["definition"] = response.json()["definition"]
-        users_ref.document("translated_words").update({word.strip() : d})
+        users_ref.document("translated_words").update({word_1 : d})
         return make_response(jsonify(d), 200)
     except Exception as error:
         return "Error: {}".format(error)
