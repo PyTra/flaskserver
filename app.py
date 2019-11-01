@@ -8,7 +8,7 @@ import requests
 #DO NOT PUSH THIS ON GITHUB
 headers = {
     'x-rapidapi-host': "wordsapiv1.p.rapidapi.com",
-    'x-rapidapi-key': "0f3ec5196emshc7cc72c460da828p14cc77jsna30a4b874345"
+    'x-rapidapi-key': "5a40884e19mshb6f790742336b01p188672jsnad55e1606505"
     }
 
 #initialize Flask
