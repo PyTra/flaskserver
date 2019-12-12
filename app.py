@@ -5,12 +5,6 @@ from googletrans import Translator
 import requests
 
 
-#DO NOT PUSH THIS ON GITHUB
-headers = {
-    'x-rapidapi-host': "wordsapiv1.p.rapidapi.com",
-    'x-rapidapi-key': "5a40884e19mshb6f790742336b01p188672jsnad55e1606505"
-    }
-
 #initialize Flask
 app = Flask(__name__)
 
